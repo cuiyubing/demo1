@@ -1,0 +1,11 @@
+server:
+  port: 90
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:10086/eureka
+    fetch-registry: true #不从注册中心拉取注册表
+
+spring:
+  application:
+    name: user-server

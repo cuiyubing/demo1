@@ -1,0 +1,22 @@
+server:
+  port: 10010
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      routes:
+        - id: user_rout
+          uri: lb://user-server  #lb://微服务名称
+          order: 0
+          predicates:
+            - Path=/api/user_server/**
+#            - After=2019-11-09T10:18:00.129+08:00[Asia/Shanghai]
+          filters:
+            - StripPrefix=2 #去掉请求路径的层级
+
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:10086/eureka

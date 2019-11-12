@@ -1,0 +1,15 @@
+server:
+  port: 8081
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:10086/eureka
+    fetch-registry: true #不从注册中心拉取注册表
+
+spring:
+  application:
+    name: order-server
+#开启熔断
+feign:
+  hystrix:
+    enabled: true

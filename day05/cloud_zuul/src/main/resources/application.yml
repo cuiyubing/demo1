@@ -1,0 +1,41 @@
+spring:
+  application:
+    name: cloud-zuul
+server:
+  port: 10000
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:10086/eureka,http://localhost:10087/eureka
+    fetch-registry: true #获取微服务注册表，用于feign或zuul
+zuul:
+  routes: #路由
+    order-server:
+      serviceId: order-server
+      path: /order_service/** #order_service替代order-server
+    user_routes:
+      url: http://localhost:90/
+      path: /uu_ser/**   #path替代url路径 ,会破坏hystrix和ribbon的特性
+  ignored-services: user-server #忽略user-server
+  prefix: /api
+  strip-prefix: false
+  sensitive-headers:
+  ratelimit:
+    key-prefix: user-server #请求的key的前缀
+    enabled: true
+    behind-proxy: true #代理之后
+    default-policy: #针对所有的路由配置的策略
+      limit: 3 #请求数量限制
+      quota: 1000 #请求时间限制（毫秒）
+      refresh-interval: 60 # 刷新时间窗口的时间（秒）
+      type:  origin #可选 限流方式
+  #    - user
+  #    - origin
+  #    - url
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*' #查询所有的路由
+
